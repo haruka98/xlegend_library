@@ -21,7 +21,8 @@ class Table:
                 if counter_bars == self.columns:
                     counter_bars = 0
                     to_add[0] = "".join(to_add[0].splitlines())
-                    self.content.append(to_add)
+                    if len(to_add[0]) > 0:
+                        self.content.append(to_add)
                     to_add = [""]
                 for j in input[i].strip("\n"):
                     if j == self.delimiter:
@@ -33,7 +34,8 @@ class Table:
                 if counter_bars < self.columns:
                     to_add[counter_bars] += "\n"
             to_add[0] = "".join(to_add[0].splitlines())
-            self.content.append(to_add)
+            if len(to_add[0]) > 0:
+                self.content.append(to_add)
 
     def write(self, file_name):
         with open(file_name, "w", encoding="big5hkscs") as file:
