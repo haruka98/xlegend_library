@@ -20,6 +20,7 @@ class Table:
             for i in range(1, len(input)):
                 if counter_bars == self.columns:
                     counter_bars = 0
+                    to_add[0] = "".join(to_add[0].splitlines())
                     self.content.append(to_add)
                     to_add = [""]
                 for j in input[i].strip("\n"):
@@ -31,6 +32,7 @@ class Table:
                         to_add[counter_bars] += j
                 if counter_bars < self.columns:
                     to_add[counter_bars] += "\n"
+            to_add[0] = "".join(to_add[0].splitlines())
             self.content.append(to_add)
 
     def write(self, file_name):
@@ -41,6 +43,3 @@ class Table:
                     file.write(str(line[i]))
                     file.write(self.delimiter)
                 file.write("\n")
-
-test = Table("C_Enchant.ini")
-test.write("S_Enchant.ini")
