@@ -9,12 +9,16 @@ class Table:
             input = file.readlines()
             if input[0][0] == "|":
                 self.delimiter = "|"
-            elif input[0][0] == ",":
+            elif "," in input[0]:
                 self.delimiter = ","
             else:
                 raise Exception("Can't read", file_name)
-            self.version = input[0].split(self.delimiter)[1]
-            self.columns = int(input[0].split(self.delimiter)[2])
+            if self.delimiter == ",":
+                self.version = input[0].split(self.delimiter)[0]
+                self.columns = int(input[0].split(self.delimiter)[1])
+            else:
+                self.version = input[0].split(self.delimiter)[1]
+                self.columns = int(input[0].split(self.delimiter)[2])
             to_add = [""]
             counter_bars = 0
             for i in range(1, len(input)):
@@ -39,7 +43,10 @@ class Table:
 
     def write(self, file_name):
         with open(file_name, "w", encoding="big5hkscs") as file:
-            file.write(self.delimiter + self.version + self.delimiter + str(self.columns) + self.delimiter + "\n")
+            if self.delimiter == ",":
+                file.write(self.version + self.delimiter + str(self.columns) + self.delimiter + "\n")
+            else:
+                file.write(self.delimiter + self.version + self.delimiter + str(self.columns) + self.delimiter + "\n")
             for line in self.content:
                 for i in range(self.columns):
                     file.write(str(line[i]))
